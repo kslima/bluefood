@@ -2,6 +2,7 @@ package com.kslima.bluefood.controller;
 
 import javax.validation.Valid;
 
+import com.kslima.bluefood.application.service.CategoriaRestauranteService;
 import com.kslima.bluefood.application.service.ClienteService;
 import com.kslima.bluefood.application.service.RestauranteService;
 import com.kslima.bluefood.application.service.ValidationException;
@@ -30,7 +31,7 @@ public class PublicController {
     private RestauranteService restauranteService;
 
     @Autowired
-    private CategoriaRestauranteRepository categoriaRestauranteRepository;
+    private CategoriaRestauranteService categoriaRestauranteService;
 
     @GetMapping("/cliente/new")
     public String newCliente(Model model) {
@@ -63,7 +64,7 @@ public class PublicController {
     public String newRestaurante(Model model) {
         model.addAttribute("restaurante", new Restaurante());
         ControlleHelper.setEditModel(model, false);
-        ControlleHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);
+        ControlleHelper.addCategoriasToRequest(categoriaRestauranteService, model);
         return "restaurante-cadastro";
     }
 
@@ -83,7 +84,7 @@ public class PublicController {
         }
 
         ControlleHelper.setEditModel(model, false);
-        ControlleHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);
+        ControlleHelper.addCategoriasToRequest(categoriaRestauranteService, model);
         return "restaurante-cadastro";
     }
 

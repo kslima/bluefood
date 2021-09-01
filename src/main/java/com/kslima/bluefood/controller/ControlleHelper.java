@@ -1,5 +1,6 @@
 package com.kslima.bluefood.controller;
 
+import com.kslima.bluefood.application.service.CategoriaRestauranteService;
 import com.kslima.bluefood.domain.restaurante.CategoriaRestaurante;
 import com.kslima.bluefood.domain.restaurante.CategoriaRestauranteRepository;
 import org.springframework.data.domain.Sort;
@@ -13,8 +14,8 @@ public class ControlleHelper {
         model.addAttribute("editMode", isEdit);
     }
 
-    public static void addCategoriasToRequest(CategoriaRestauranteRepository repository, Model model) {
-        List<CategoriaRestaurante> categorias = repository.findAll(Sort.by("nome"));
+    public static void addCategoriasToRequest(CategoriaRestauranteService categoriaRestauranteService, Model model) {
+        List<CategoriaRestaurante> categorias = categoriaRestauranteService.findAllSortByName();
         model.addAttribute("categorias", categorias);
     }
     

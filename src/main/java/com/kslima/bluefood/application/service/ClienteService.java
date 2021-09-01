@@ -54,4 +54,8 @@ public class ClienteService {
 
     }
 
+    public Cliente findById(Integer id) {
+        return clienteRepository.findById(id).orElseThrow(NoSuchElementException::new);
+    }
+
 }

@@ -31,9 +31,23 @@ public class ImageService {
 
     public byte[] getBytes(String type, String imgName) {
         try {
-            ImageDirectory dir = ImageDirectory.valueOf(type.toUpperCase());
-            System.out.println(" diretorio: " + dir.getDirectory());
-            return IOUtils.getBytes(Paths.get(dir.getDirectory(), imgName));
+
+            String dir;
+            if ("logotipo".equals(type)) {
+                dir = logotiposDir;
+
+            } else if ("comida".equals(type)) {
+                dir = comidasDir;
+
+            } else if ("categoria".equals(type)) {
+                dir = categoriasDir;
+
+            } else {
+                throw new IllegalAccessException(type + "não é um tipo válido");
+            }
+
+            System.out.println("achou " + type + " " + dir);
+            return IOUtils.getBytes(Paths.get(dir, imgName));
 
         } catch (Exception e) {
             throw new ApplicationServiceException(e);

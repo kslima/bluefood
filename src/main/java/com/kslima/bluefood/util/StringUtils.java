@@ -3,6 +3,9 @@ package com.kslima.bluefood.util;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 public class StringUtils {
 
     public static boolean isEmpty(String str) {
@@ -19,6 +22,15 @@ public class StringUtils {
         }
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         return encoder.encode(rawString);
+    }
+
+    public static String concatenate(Collection<String> strings) {
+
+        if (strings == null || strings.isEmpty()) {
+            return null;
+        }
+
+        return String.join(", ", strings).trim();
     }
     
 }

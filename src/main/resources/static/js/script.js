@@ -6,3 +6,19 @@ function inNumberKey(evt) {
     }
     return false;
 }
+
+function searchRest(categoriaId) {
+
+    var t = document.getElementById("searchType");
+
+    if (categoriaId == null) {
+        t.value = "TEXTO";
+
+    } else {
+        t.value = "CATEGORIA";
+        document.getElementById("categoriaId").value = categoriaId
+    }
+
+    document.getElementById("form").submit();
+
+}

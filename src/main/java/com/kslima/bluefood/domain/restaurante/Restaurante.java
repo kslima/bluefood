@@ -2,7 +2,9 @@ package com.kslima.bluefood.domain.restaurante;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -16,6 +18,7 @@ import com.kslima.bluefood.domain.Usuario;
 
 import com.kslima.bluefood.infrastructure.UploadConstraint;
 import com.kslima.bluefood.util.FileType;
+import com.kslima.bluefood.util.StringUtils;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,7 +52,7 @@ public class Restaurante extends Usuario{
     @Max(99)
     private Integer tempoEntregaBase;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Size(min = 1, message = "O Restaurante precisa ter pelo menos uma categoria")
     @ToString.Exclude
     private Set<CategoriaRestaurante> categorias = new HashSet<>();
@@ -65,6 +68,14 @@ public class Restaurante extends Usuario{
 
         String extension = FileType.of(logotipoFile.getContentType()).getExtension();
         this.logotipo = String.format("%04d-logo.%s", getId(), extension);
+    }
+
+    public String categoriasAsText() {
+        Set<String> strings = categorias.stream()
+                .map(CategoriaRestaurante::getNome)
+                .collect(Collectors.toSet());
+        return StringUtils.concatenate(strings);
+
     }
     
 }

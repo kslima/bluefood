@@ -194,6 +194,8 @@ div#divCategoriasComidaOpcao
 
 div#divCategoriasComidaGeral
 {
+   width: 80%;
+   margin: auto;
    overflow: hidden;
    display: flex;
    justify-content: space-between;

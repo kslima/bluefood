@@ -7,18 +7,19 @@
 
     <div>
         <h1>É hora de rangar!</h1>
-        <form method="POST" action="">
+        <form method="get" th:object="${searchFilter}" th:action="@{/cliente/search}">
             <fieldset id="fieldsetFiltros">
-                <input type="text" name="busca" placeholder="Busca por..."/>
-                <input type="button" value="Procurar"/>
+                <input type="text" th:field="*{texto}" placeholder="Busca por..."/>
+                <input type="submit" value="Procurar"/>
             </fieldset>
         </form>
     </div>
-
+    <br/>
     <div id="divCategoriasComidaGeral">
         <div id="divCategoriasComidaOpcao" th:each="categoria : ${categorias}">
             <a href="#">
                 <img th:src="@{/images/categoria/} + ${categoria.imagem}" id="imgCategoriaComida" /><br/>
+                <br/>
                 <span th:text="${categoria.nome}"></span>
             </a>
         </div>

@@ -5,10 +5,12 @@ import com.kslima.bluefood.domain.cliente.ClienteRepository;
 import com.kslima.bluefood.domain.restaurante.Restaurante;
 import com.kslima.bluefood.domain.restaurante.RestauranteRepository;
 
+import com.kslima.bluefood.domain.restaurante.SearchFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -60,6 +62,10 @@ public class RestauranteService {
         }
 
 
+    }
+
+    public List<Restaurante> search(SearchFilter filter) {
+        return restauranteRepository.findAll();
     }
 
 }

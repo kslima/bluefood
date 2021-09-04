@@ -2,9 +2,12 @@ package com.kslima.bluefood.controller;
 
 import com.kslima.bluefood.application.service.CategoriaRestauranteService;
 import com.kslima.bluefood.application.service.ClienteService;
+import com.kslima.bluefood.application.service.RestauranteService;
 import com.kslima.bluefood.application.service.ValidationException;
 import com.kslima.bluefood.domain.cliente.Cliente;
 import com.kslima.bluefood.domain.restaurante.CategoriaRestaurante;
+import com.kslima.bluefood.domain.restaurante.Restaurante;
+import com.kslima.bluefood.domain.restaurante.SearchFilter;
 import com.kslima.bluefood.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,10 +31,14 @@ public class ClienteController {
     @Autowired
     private CategoriaRestauranteService categoriaRestauranteService;
 
+    @Autowired
+    private RestauranteService restauranteService;
+
     @GetMapping(path = "/home")
     public String home(Model model) {
         List<CategoriaRestaurante> categorias = categoriaRestauranteService.findAllSortByName();
         model.addAttribute("categorias", categorias);
+        model.addAttribute("searchFilter", new SearchFilter());
         return "cliente-home";
     }
 
@@ -62,5 +69,13 @@ public class ClienteController {
 
         ControlleHelper.setEditModel(model, false);
         return "cliente-cadastro";
+    }
+
+    @GetMapping(path = "/search")
+    public String search(@ModelAttribute("searchFilter") SearchFilter filter, Model model) {
+        ControlleHelper.addCategoriasToRequest(categoriaRestauranteService, model);
+        List<Restaurante> restaurantes = restauranteService.search(filter);
+        model.addAttribute("restaurantes", restaurantes);
+        return "cliente-busca";
     }
 }

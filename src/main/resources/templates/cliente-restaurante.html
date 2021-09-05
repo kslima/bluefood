@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}" th:with="link=@{/cliente/home}">
+    <body>
+        <div layout:fragment="content">
+            <div>
+                <img th:src="@{/images/logotipo/} + ${restaurante.logotipo}" id="imgRestauranteBusca"/>
+                <br/>
+                <span th:text="${restaurante.nome}"></span>
+                <br/>
+                <span th:text="${restaurante.categoriasAsText()}"></span>
+                <br/>
+                <span th:text="'Tempo médio de entrega: ' + ${restaurante.calcularTempoEntrega(cep) + 'm'} "></span>
+                <br/>
+                <span th:text="'Taxa de entrega: ' + ${#numbers.formatCurrency(restaurante.taxaEntrega)}"></span>
+                <br/>
+            </div>
+
+            <div>
+                <h1>Opções</h1>
+                <fieldset>
+                    <legend>Filtros</legend>
+                    <div th:each="categoria : ${categorias}" id="divRestauranteCategoriasFiltro">
+                        <input type="button" th:value="${categoria}"/>
+                    </div>
+                </fieldset>
+                <br/>
+            </div>
+
+            <div>
+                <h1>Destaques</h1>
+            </div>
+
+            <div>
+
+                <div>
+                    <img src="images/sys_comidaPizzaCalabresa.png">
+                    <br/>
+                    <spam>Pizza de Calabresa</spam>
+                    <br/>
+                    <spam>Massa fina, queijo, calabresa e pimenta.</spam>
+                    <br/>
+                    <spam>R$ 45,00</spam>
+                    <br/>
+                    <form method="POST" action="">
+                        <label for="quantidade">Quantidade</label>
+                        <br/>
+                        <select name="quantidade" id="quantidade">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                        <br/><br/>
+                        Observações:
+                        <br/>
+                        <textarea>
+                    </textarea>
+                        <br/><br/>
+                        <input type="button" value ="Adicionar ao carrinho"/>
+                    </form>
+                </div>
+
+                <div>
+                    <img src="images/sys_comidaHamburguer.png">
+                    <br/>
+                    <spam>Hamburguer</spam>
+                    <br/>
+                    <spam>Pão, hamburguer 200gm, queijo, tomate, alface e bacon.</spam>
+                    <br/>
+                    <spam>R$ 30,00</spam>
+                    <br/>
+                    <form method="POST" action="">
+                        <label for="quantidade">Quantidade</label>
+                        <br/>
+                        <select name="quantidade" id="quantidade">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                        <br/><br/>
+                        Observações:
+                        <br/>
+                        <textarea>
+                    </textarea>
+                        <br/><br/>
+                        <input type="button" value ="Adicionar ao carrinho"/>
+                    </form>
+                </div>
+
+            </div>
+            <input type="button" value="Voltar" />
+        </div>
+
+    </body>
+</html>

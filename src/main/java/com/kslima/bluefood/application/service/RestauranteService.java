@@ -3,13 +3,16 @@ package com.kslima.bluefood.application.service;
 import com.kslima.bluefood.domain.cliente.Cliente;
 import com.kslima.bluefood.domain.cliente.ClienteRepository;
 import com.kslima.bluefood.domain.restaurante.Restaurante;
+import com.kslima.bluefood.domain.restaurante.RestauranteComparator;
 import com.kslima.bluefood.domain.restaurante.RestauranteRepository;
 
 import com.kslima.bluefood.domain.restaurante.SearchFilter;
+import com.kslima.bluefood.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -76,7 +79,25 @@ public class RestauranteService {
         } else {
             throw new IllegalArgumentException("O  tipo de busca " + filter.getSearchType() + " não é suportado");
         }
+
+        Iterator<Restaurante> iterator = restaurantes.iterator();
+
+        while (iterator.hasNext()) {
+            Restaurante restaurante = iterator.next();
+            double taxaEntrega = restaurante.getTaxaEntrega().doubleValue();
+            if (filter.isEntregaGratis() && taxaEntrega > 0
+                    || !filter.isEntregaGratis() && taxaEntrega == 0) {
+                iterator.remove();
+            }
+        }
+
+        RestauranteComparator comparator = new RestauranteComparator(filter, SecurityUtils.loggetdCliente().getCep());
+        restaurantes.sort(comparator);
         return restaurantes;
+    }
+
+    public Restaurante findById(Integer id) {
+        return restauranteRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
 }

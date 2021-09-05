@@ -30,11 +30,33 @@
                     <h1>Resultados</h1>
                     <fieldset>
                         <legend>Filtros</legend>
-                        <input type="button" value="Entrega grátis"/><br/>
-                        <input type="button" value="Maior preço"/><input type="button" value="Menor preço"/><br/>
-                        <input type="button" value="Maior taxa"/><input type="button" value="Menor taxa"/><br/>
-                        <input type="button" value="Maior tempo"/><input type="button" value="Menor tempo"
-                                                                         id="inputSelecionado"/><br/>
+                        <input type="button" value="Entrega grátis"
+                               th:id="*{entregaGratis} ? 'inputSelecionado' : '' "
+                               onclick="setCmd('ENTREGA_GRATIS');"/>
+                        <br/>
+
+                        <input type="button" value="Maior taxa"
+                               th:id="*{order.name()} == 'TAXA' and !*{asc} ? 'inputSelecionado' : ''"
+                               onclick="setCmd('MAIOR_TAXA');"/>
+
+                        <input type="button" value="Menor taxa"
+                               th:id="*{order.name()} == 'TAXA' and *{asc} ? 'inputSelecionado' : ''"
+                               onclick="setCmd('MENOR_TAXA');"/>
+                        <br/>
+
+                        <input type="button" value="Maior tempo"
+                               th:id="*{order.name()} == 'TEMPO' and !*{asc} ? 'inputSelecionado' : ''"
+                               onclick="setCmd('MAIOR_TEMPO');" />
+
+                        <input type="button" value="Menor tempo" id="inputSelecionado"
+                               th:id="*{order.name()} == 'TEMPO' and *{asc} ? 'inputSelecionado' : ''"
+                               onclick="setCmd('MENOR_TEMPO');" />
+                        <br/>
+
+                        <input type="hidden" id="entregaGratis" th:field="*{entregaGratis}" />
+                        <input type="hidden" id="order" th:field="*{order}" />
+                        <input type="hidden" id="asc" th:field="*{asc}" />
+                        <input type="hidden" id="cmd" name="cmd" />
                     </fieldset>
                 </div>
             </form>
@@ -42,11 +64,11 @@
             <br/><br/>
             <div id="divRestauranteGeral">
                 <div id="divRestauranteOpcao" th:each="restaurante : ${restaurantes}">
-                    <a href="#">
+                    <a th:href="@{/cliente/restaurante} + '?restauranteId=' + ${restaurante.id}">
                         <img th:src="@{/images/logotipo/} + ${restaurante.logotipo}" id="imgRestauranteOpcao"/><br/>
                         <span th:text="${restaurante.nome}" id="restauranteOpcaoTitulo"></span><br/>
                         <span th:text="${restaurante.categoriasAsText}"></span><br/>
-                        <span th:text="'Tempo médio de entrega: ' + ${restaurante.tempoEntregaBase} + 'm'"></span><br/>
+                        <span th:text="'Tempo médio de entrega: ' + ${restaurante.calcularTempoEntrega(cep)} + 'm'"></span><br/>
                         <span th:text="'Taxa de entrega: ' + ${#numbers.formatCurrency(restaurante.taxaEntrega)}"></span><br/>
                     </a>
                     <br/><br/>

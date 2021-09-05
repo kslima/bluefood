@@ -217,7 +217,17 @@ input#inputSelecionado
     border-color: #1e9bde;
 }
 
+div#divRestauranteCategoriasFiltro
+{
+   display: inline;
+}
+
 img#imgRestauranteOpcao
+{
+    height: 130px;
+}
+
+img#imgRestauranteBusca
 {
     height: 130px;
 }

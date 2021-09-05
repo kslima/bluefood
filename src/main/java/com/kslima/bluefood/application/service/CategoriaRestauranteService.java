@@ -17,8 +17,13 @@ public class CategoriaRestauranteService {
     public List<CategoriaRestaurante> findAll() {
         return categoriaRestauranteRepository.findAll();
     }
+
     public List<CategoriaRestaurante> findAllSortByName() {
         return categoriaRestauranteRepository.findAll(Sort.by("nome"));
+    }
+
+    public List<String> findCategorias(Integer restauranteId) {
+        return categoriaRestauranteRepository.findCategorias(restauranteId);
     }
 
 }

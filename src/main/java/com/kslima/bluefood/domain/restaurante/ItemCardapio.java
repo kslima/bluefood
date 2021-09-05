@@ -50,8 +50,9 @@ public class ItemCardapio {
     @ManyToOne
     private Restaurante restaurante;
 
+    @Transient
     @UploadConstraint(acceptedTypes = {FileType.PNG, FileType.JPG}, message = "O arquivo não é um arquivo de imagem válido")
-    private transient MultipartFile imagemFile;
+    private MultipartFile imagemFile;
 
     public void setImagemFileName() {
         if (getId() == null) {

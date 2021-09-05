@@ -36,8 +36,9 @@ public class Restaurante extends Usuario{
     @Column(length = 14, nullable = false)
     private String cnpj;
 
+    @Transient
     @UploadConstraint(acceptedTypes = {FileType.PNG, FileType.JPG}, message = "O arquivo de imagem é inválido")
-    private transient MultipartFile logotipoFile;
+    private MultipartFile logotipoFile;
 
     @Size(max = 80)
     private String logotipo;

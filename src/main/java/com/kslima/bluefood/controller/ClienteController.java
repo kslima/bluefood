@@ -1,9 +1,6 @@
 package com.kslima.bluefood.controller;
 
-import com.kslima.bluefood.application.service.CategoriaRestauranteService;
-import com.kslima.bluefood.application.service.ClienteService;
-import com.kslima.bluefood.application.service.RestauranteService;
-import com.kslima.bluefood.application.service.ValidationException;
+import com.kslima.bluefood.application.service.*;
 import com.kslima.bluefood.domain.cliente.Cliente;
 import com.kslima.bluefood.domain.restaurante.CategoriaRestaurante;
 import com.kslima.bluefood.domain.restaurante.Restaurante;
@@ -30,6 +27,9 @@ public class ClienteController {
 
     @Autowired
     private RestauranteService restauranteService;
+
+    @Autowired
+    private ItemCardapioService itemCardapioService;
 
     @GetMapping(path = "/home")
     public String home(Model model) {
@@ -91,8 +91,7 @@ public class ClienteController {
         model.addAttribute("restaurante", restaurante);
         model.addAttribute("cep", SecurityUtils.loggetdCliente().getCep());
 
-        List<String> categorias = categoriaRestauranteService.findCategorias(restauranteId);
-        System.out.println("tamanho da lista categorias " + categorias.size());
+        List<String> categorias = itemCardapioService.findCategorias(restauranteId);
         model.addAttribute("categorias", categorias);
         return "cliente-restaurante";
     }

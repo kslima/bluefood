@@ -199,6 +199,7 @@ div#divCategoriasComidaGeral
    overflow: hidden;
    display: flex;
    justify-content: space-between;
+   margin-top: 20px;
 }
 
 img#imgCategoriaComida

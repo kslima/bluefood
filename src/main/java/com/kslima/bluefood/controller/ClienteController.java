@@ -3,6 +3,7 @@ package com.kslima.bluefood.controller;
 import com.kslima.bluefood.application.service.*;
 import com.kslima.bluefood.domain.cliente.Cliente;
 import com.kslima.bluefood.domain.restaurante.CategoriaRestaurante;
+import com.kslima.bluefood.domain.restaurante.ItemCardapio;
 import com.kslima.bluefood.domain.restaurante.Restaurante;
 import com.kslima.bluefood.domain.restaurante.SearchFilter;
 import com.kslima.bluefood.util.SecurityUtils;
@@ -86,13 +87,22 @@ public class ClienteController {
     }
 
     @GetMapping(path = "/restaurante")
-    public String viewRestaurante(@RequestParam("restauranteId") Integer restauranteId, Model model){
+    public String viewRestaurante(@RequestParam("restauranteId") Integer restauranteId, Model model) {
         Restaurante restaurante = restauranteService.findById(restauranteId);
         model.addAttribute("restaurante", restaurante);
         model.addAttribute("cep", SecurityUtils.loggetdCliente().getCep());
 
         List<String> categorias = itemCardapioService.findCategorias(restauranteId);
         model.addAttribute("categorias", categorias);
+
+        List<ItemCardapio> itensCardapioDestaque = itemCardapioService
+                .findByRestaurante_IdAndDestaqueOrderByNome(restauranteId, true);
+        model.addAttribute("itensCardapioDestaque", itensCardapioDestaque);
+
+        List<ItemCardapio> itensCardapioNaoDestaque = itemCardapioService
+                .findByRestaurante_IdAndDestaqueOrderByNome(restauranteId, false);
+        model.addAttribute("itensCardapioNaoDestaque", itensCardapioNaoDestaque);
+
         return "cliente-restaurante";
     }
 

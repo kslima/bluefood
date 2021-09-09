@@ -87,7 +87,9 @@ public class ClienteController {
     }
 
     @GetMapping(path = "/restaurante")
-    public String viewRestaurante(@RequestParam("restauranteId") Integer restauranteId, Model model) {
+    public String viewRestaurante(@RequestParam("restauranteId") Integer restauranteId,
+                                  @RequestParam(value = "categoria", required = false) String categoria,
+                                  Model model) {
         Restaurante restaurante = restauranteService.findById(restauranteId);
         model.addAttribute("restaurante", restaurante);
         model.addAttribute("cep", SecurityUtils.loggetdCliente().getCep());
@@ -95,14 +97,27 @@ public class ClienteController {
         List<String> categorias = itemCardapioService.findCategorias(restauranteId);
         model.addAttribute("categorias", categorias);
 
-        List<ItemCardapio> itensCardapioDestaque = itemCardapioService
-                .findByRestaurante_IdAndDestaqueOrderByNome(restauranteId, true);
+        List<ItemCardapio> itensCardapioDestaque;
+        List<ItemCardapio> itensCardapioNaoDestaque;
+
+        if (categoria == null) {
+            itensCardapioDestaque = itemCardapioService
+                    .findByRestaurante_IdAndDestaqueOrderByNome(restauranteId, true);
+
+            itensCardapioNaoDestaque = itemCardapioService
+                    .findByRestaurante_IdAndDestaqueOrderByNome(restauranteId, false);
+
+        } else {
+            itensCardapioDestaque = itemCardapioService
+                    .findByRestaurante_IdAndDestaqueAndCategoriaOrderByNome(restauranteId, true, categoria);
+
+            itensCardapioNaoDestaque = itemCardapioService
+                    .findByRestaurante_IdAndDestaqueAndCategoriaOrderByNome(restauranteId, false, categoria);
+        }
+
         model.addAttribute("itensCardapioDestaque", itensCardapioDestaque);
-
-        List<ItemCardapio> itensCardapioNaoDestaque = itemCardapioService
-                .findByRestaurante_IdAndDestaqueOrderByNome(restauranteId, false);
         model.addAttribute("itensCardapioNaoDestaque", itensCardapioNaoDestaque);
-
+        model.addAttribute("categoriaSelecionada", categoria);
         return "cliente-restaurante";
     }
 

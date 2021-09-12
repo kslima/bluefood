@@ -44,14 +44,16 @@
         </div>
         <br/><br/>
 
-        <div>
-            <spam>Cartão de Crédito</spam>
-            <input type="text" name="cartao" onkeypress="return isNumberKey(event)">
-        </div>
+        <form method="post" th:action="@{/cliente/pagamento/pagar}">
+            <div>
+                <spam>Cartão de Crédito</spam>
+                <input name="numCartao" type="text" onkeypress="return isNumberKey(event)">
+            </div>
 
-        <div>
-            <input type="button" value="Enviar pedido">
-        </div>
+            <div>
+                <input type="submit" value="Enviar pedido">
+            </div>
+        </form>
     </div>
 
 </div>

@@ -26,7 +26,6 @@ public class ItemPedido implements Serializable {
     @ManyToOne
     private ItemCardapio itemCardapio;
 
-    @Size(max = 50)
     private Integer quantidade;
 
     private String observacoes;

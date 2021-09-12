@@ -26,7 +26,7 @@ public class PagamentoController {
             Model model) {
         Pedido pedido = pedidoService.criarEPagar(carrinho, numCartao);
         sessionStatus.setComplete();
-        return "redirect:/cliente/pedido/vieew?pedidoId=" + pedido.getId();
+        return "redirect:/cliente/pedido/view?pedidoId=" + pedido.getId();
     }
 
 }

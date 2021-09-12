@@ -69,6 +69,18 @@ public class Pedido implements Serializable {
 		int ordem;
 		String descricao;
 		boolean ultimo;
+
+		public int getOrdem() {
+			return ordem;
+		}
+
+		public String getDescricao() {
+			return descricao;
+		}
+
+		public boolean isUltimo() {
+			return ultimo;
+		}
 	}
 	
 
@@ -100,7 +112,7 @@ public class Pedido implements Serializable {
 	@NotNull
 	private BigDecimal total;
 	
-	@OneToMany(mappedBy = "id.pedido")
+	@OneToMany(mappedBy = "id.pedido", fetch = FetchType.EAGER)
 	private Set<ItemPedido> itens = new HashSet<>();
 
 }

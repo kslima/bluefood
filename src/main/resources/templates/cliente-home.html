@@ -3,41 +3,43 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layout}" th:with="link=@{/cliente/home}">
 <body>
-    <div layout:fragment="content">
-        <form id="form" method="get" th:object="${searchFilter}" th:action="@{/cliente/search}">
-            <input id="searchType" type="hidden" th:field="*{searchType}" />
-            <input id="categoriaId" type="hidden" th:field="*{categoriaId}" />
-            <div>
-                <h1>É hora de rangar!</h1>
-                <fieldset id="fieldsetFiltros">
-                    <input type="text" th:field="*{texto}" placeholder="Busca por..."/>
-                    <input type="button" value="Procurar" onclick="searchRest(null);"/>
-                </fieldset>
+<div layout:fragment="content">
+    <form id="form" method="get" th:object="${searchFilter}" th:action="@{/cliente/search}">
+        <input id="searchType" type="hidden" th:field="*{searchType}"/>
+        <input id="categoriaId" type="hidden" th:field="*{categoriaId}"/>
+        <div>
+            <h1>É hora de rangar!</h1>
+            <fieldset id="fieldsetFiltros">
+                <input type="text" th:field="*{texto}" placeholder="Busca por..."/>
+                <input type="button" value="Procurar" onclick="searchRest(null);"/>
+            </fieldset>
+        </div>
+        <br/>
+        <div id="divCategoriasComidaGeral">
+            <div id="divCategoriasComidaOpcao" th:each="categoria : ${categorias}">
+                <a href="#" th:onclick="'searchRest(' + ${categoria.id} + ');'">
+                    <img th:src="@{/images/categoria/} + ${categoria.imagem}" id="imgCategoriaComida"/><br/>
+                    <br/>
+                    <span th:text="${categoria.nome}"></span>
+                </a>
             </div>
-            <br/>
-            <div id="divCategoriasComidaGeral">
-                <div id="divCategoriasComidaOpcao" th:each="categoria : ${categorias}">
-                    <a href="#" th:onclick="'searchRest(' + ${categoria.id} + ');'">
-                        <img th:src="@{/images/categoria/} + ${categoria.imagem}" id="imgCategoriaComida" /><br/>
-                        <br/>
-                        <span th:text="${categoria.nome}"></span>
-                    </a>
-                </div>
-            </div>
+        </div>
 
-            <div>
-                <h1>Útimos pedidos</h1>
-                <input type="button" value="#15124 McBlunalds"/><br/>
-                <input type="button" value="#35464 Blue Pizza"/><br/>
-                <input type="button" value="#38754 Hard Blue"/><br/>
+        <div>
+            <h1>Útimos pedidos</h1>
+            <div th:each="pedido : ${pedidos}">
+                <input type="button" th:value="${pedido.formattedId} + ' ' + ${pedido.restaurante.nome}"
+                th:onclick="'location.href=\'' + @{/cliente/pedido/view} + '?pedidoId=' + ${pedido.id} + '\';'"/><br/>
             </div>
-
-         <div>
-                <h1>Conta</h1>
-                <input type="button" value="Meus dados" th:onclick="'location.href=\'' + @{/cliente/edit} + '\';'"/>
-                <input type="button" value="Sair" th:onclick="'location.href=\'' + @{/logout} + '\';'"/><br/>
-            </div>
-        </form>
-    </div>
+            <span th:if="${pedidos.size() == 0}">Não existe nenhum pedido anterior</span>
+        </div>
+        <br /><br />
+        <div>
+            <h1>Conta</h1>
+            <input type="button" value="Meus dados" th:onclick="'location.href=\'' + @{/cliente/edit} + '\';'"/>
+            <input type="button" value="Sair" th:onclick="'location.href=\'' + @{/logout} + '\';'"/><br/>
+        </div>
+    </form>
+</div>
 </body>
 </html>

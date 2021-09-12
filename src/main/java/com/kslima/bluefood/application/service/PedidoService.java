@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -39,6 +40,10 @@ public class PedidoService {
 
     public Pedido findById(Integer pedidoId) {
         return pedidoRepository.findById(pedidoId).orElseThrow(NoSuchElementException::new);
+    }
+
+    public List<Pedido> listPedidosByCliente(Integer clienteId) {
+        return pedidoRepository.listPedidosByCliente(clienteId);
     }
 
 }

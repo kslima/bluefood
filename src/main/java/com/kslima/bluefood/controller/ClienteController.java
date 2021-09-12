@@ -2,6 +2,7 @@ package com.kslima.bluefood.controller;
 
 import com.kslima.bluefood.application.service.*;
 import com.kslima.bluefood.domain.cliente.Cliente;
+import com.kslima.bluefood.domain.pedido.Pedido;
 import com.kslima.bluefood.domain.restaurante.CategoriaRestaurante;
 import com.kslima.bluefood.domain.restaurante.ItemCardapio;
 import com.kslima.bluefood.domain.restaurante.Restaurante;
@@ -24,6 +25,9 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @Autowired
+    private PedidoService pedidoService;
+
+    @Autowired
     private CategoriaRestauranteService categoriaRestauranteService;
 
     @Autowired
@@ -37,6 +41,10 @@ public class ClienteController {
         List<CategoriaRestaurante> categorias = categoriaRestauranteService.findAllSortByName();
         model.addAttribute("categorias", categorias);
         model.addAttribute("searchFilter", new SearchFilter());
+
+        List<Pedido> pedidos = pedidoService.listPedidosByCliente(SecurityUtils.loggetdCliente().getId());
+        model.addAttribute("pedidos", pedidos);
+
         return "cliente-home";
     }
 

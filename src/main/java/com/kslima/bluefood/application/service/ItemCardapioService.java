@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ItemCardapioService {
 
     @Autowired
     private ItemCardapioRepository itemCardapioRepository;
+
+    public ItemCardapio findById(Integer id) {
+        return itemCardapioRepository.findById(id).orElseThrow(NoSuchElementException::new);
+    }
 
     public List<String> findCategorias(Integer restauranteId) {
         return itemCardapioRepository.findCategorias(restauranteId);

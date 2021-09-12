@@ -45,10 +45,10 @@
         <div id="divCategoriasComidaGeral" th:each="item : ${itensCardapioDestaque}">
             <div id="divRestauranteOpcao">
                 <img th:src="@{/images/comida/} + ${item.imagem}" id="imgRestauranteOpcao"><br />
-                <spam id="RestauranteOpcaoTitulo" th:text="${item.nome}"></spam><br />
+                <spam id="restauranteOpcaoTitulo" th:text="${item.nome}"></spam><br />
                 <spam th:text="${item.descricao}"></spam><br />
                 <spam th:text="${#numbers.formatCurrency(item.preco)}"></spam><br />
-                <form method="GET" action="@{/cliente/carrinho/adicionar}">
+                <form method="GET" th:action="@{/cliente/carrinho/adicionar}">
                     <input type="hidden" name="itemId" th:value="${item.id}" />
                     <label for="quantidade">Quantidade</label>
                     <br />

@@ -1,6 +1,7 @@
 package com.kslima.bluefood.controller;
 
 import com.kslima.bluefood.application.service.ImageService;
+import com.kslima.bluefood.application.service.PagamentoException;
 import com.kslima.bluefood.application.service.PedidoService;
 import com.kslima.bluefood.domain.pedido.Carrinho;
 import com.kslima.bluefood.domain.pedido.Pedido;
@@ -24,9 +25,16 @@ public class PagamentoController {
             @ModelAttribute("carrinho")Carrinho carrinho,
             SessionStatus sessionStatus,
             Model model) {
-        Pedido pedido = pedidoService.criarEPagar(carrinho, numCartao);
-        sessionStatus.setComplete();
-        return "redirect:/cliente/pedido/view?pedidoId=" + pedido.getId();
+
+        try {
+            Pedido pedido = pedidoService.criarEPagar(carrinho, numCartao);
+            sessionStatus.setComplete();
+            return "redirect:/cliente/pedido/view?pedidoId=" + pedido.getId();
+
+        } catch (PagamentoException e) {
+            model.addAttribute("msg", e.getMessage());
+            return "cliente-carrinho";
+        }
     }
 
 }

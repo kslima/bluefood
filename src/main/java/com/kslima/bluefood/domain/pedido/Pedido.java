@@ -42,6 +42,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.kslima.bluefood.domain.cliente.Cliente;
+import com.kslima.bluefood.domain.pagamento.Pagamento;
 import com.kslima.bluefood.domain.restaurante.Restaurante;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -114,6 +115,9 @@ public class Pedido implements Serializable {
 	
 	@OneToMany(mappedBy = "id.pedido", fetch = FetchType.EAGER)
 	private Set<ItemPedido> itens = new HashSet<>();
+
+	@OneToOne(mappedBy = "pedido")
+	private Pagamento pagamento;
 
 	public String getFormattedId() {
 		return String.format("#%04d", id);

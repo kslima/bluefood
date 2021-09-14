@@ -1,6 +1,7 @@
 package com.kslima.bluefood.application.service;
 
 import com.kslima.bluefood.domain.pagamento.DadosCartao;
+import com.kslima.bluefood.domain.pagamento.Pagamento;
 import com.kslima.bluefood.domain.pagamento.StatusPagamento;
 import com.kslima.bluefood.domain.pedido.*;
 import com.kslima.bluefood.util.SecurityUtils;
@@ -32,6 +33,9 @@ public class PedidoService {
 
     @Value("${bluefood.kpay.token}")
     private String kPayToken;
+
+    @Autowired
+    private PagamentoService pagamentoService;
 
     @SuppressWarnings("unchecked")
     @Transactional(rollbackFor =  PagamentoException.class)
@@ -78,6 +82,12 @@ public class PedidoService {
         if (statusPagamento != StatusPagamento.AUTORIZADO) {
             throw new PagamentoException(statusPagamento.getDescricao());
         }
+
+        Pagamento pagamento = new Pagamento();
+        pagamento.setData(LocalDateTime.now());
+        pagamento.setPedido(pedido);
+        pagamento.definirNumeroEBandeira(numCartao);
+        pagamentoService.salvar(pagamento);
         return pedido;
     }
 
